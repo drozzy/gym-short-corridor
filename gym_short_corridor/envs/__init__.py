@@ -1,0 +1,1 @@
+from gym_short_corridor.envs.short_corridor_env import ShortCorridorEnv
