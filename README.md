@@ -19,13 +19,13 @@ env = gym.make("ShortCorridorEnv-v0")
 state = env.reset()
 env.render()
 
-while True:	
-	step = random.randint(0, 1)	
-	state, reward, done, _ = env.step(step)	
-	env.render()
+while True: 
+    step = env.action_space.sample()
+    state, reward, done, _ = env.step(step) 
+    env.render()
 
-	if done:
-		break
+    if done:
+        break
 ```
 
 ## Installation
