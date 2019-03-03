@@ -27,8 +27,10 @@ state = env.reset()
 env.render()
 
 while True: 
-    step = env.action_space.sample()
-    state, reward, done, _ = env.step(step) 
+    action = env.action_space.sample()
+    step = "left" if action == 0 else "right"
+    print("Try to go " + step)
+    state, reward, done, _ = env.step(action) 
     env.render()
 
     if done:
@@ -38,10 +40,21 @@ while True:
 Sample run of the above may produce the following:
 ```
 [x]{ }[ ][ ]
+Try to go left
+[x]{ }[ ][ ]
+Try to go right
 [ ]{x}[ ][ ]
-[ ]{ }[x][ ]
+Try to go right
+[x]{ }[ ][ ]
+Try to go right
 [ ]{x}[ ][ ]
+Try to go right
+[x]{ }[ ][ ]
+Try to go right
+[ ]{x}[ ][ ]
+Try to go left
 [ ]{ }[x][ ]
+Try to go right
 [ ]{ }[ ][x]
 ```
 
