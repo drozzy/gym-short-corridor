@@ -21,8 +21,10 @@ class ShortCorridorEnv(gym.Env, utils.EzPickle):
         #     (e.g. going left causes a move right)
         # n - normal state. State in which actions work as expected.
         # G - goal state.
-        ########################        
-        self.GOAL_STATE = 2
+        ########################
+
+        self.REVERSE_STATE = 1        
+        self.GOAL_STATE = 3
         self.NUM_STATES = self.GOAL_STATE + 1
         
         self.current_state = 0
@@ -32,18 +34,21 @@ class ShortCorridorEnv(gym.Env, utils.EzPickle):
         self.action_space = spaces.Discrete(2) 
 
     def step(self, action):
-        if action == 0:
-            self.current_state -= 1
-            self.current_state = max(0, self.current_state)
-        else:
-            self.current_state += 1
-            self.current_state = self.current_state % (self.NUM_STATES) 
+        step = -1 if action == 0 else 1
         
+        if self.current_state == self.REVERSE_STATE:
+            step = - step
+
+        self.current_state += step
+
+        self.current_state = max(0, self.current_state)
+        self.current_state = self.current_state % (self.NUM_STATES)
         
         ob = 0
         reward = -1
-        episode_over = self.current_state >= self.GOAL_STATE
-        return ob, reward, episode_over, {}
+        done = self.current_state >= self.GOAL_STATE
+
+        return ob, reward, done, {}
 
     def reset(self):
         self.goal_reached = False
@@ -51,8 +56,16 @@ class ShortCorridorEnv(gym.Env, utils.EzPickle):
         return 0
 
     def render(self, mode='human'):
-        cell = "[ ]"
-        corridor = cell * (self.current_state) + "[x]" + cell * (self.GOAL_STATE - self.current_state)
+        corridor = ""
+        for i in range(self.NUM_STATES):
+            marker = " "
+            if self.current_state == i:
+                marker = "x"
+            if i == self.REVERSE_STATE:
+                corridor += "{" + marker + "}"
+            else:
+                corridor += "[" + marker + "]"
+
         print(corridor)
         
 
