@@ -4,7 +4,7 @@ This is an environment built out of the Example 13.1 "Short corridor with switch
 
 ![Example 13.1](https://github.com/drozzy/gym-short-corridor/raw/master/example.png)
 
-There are four states. The goal is to reach the goal state "G" on the right. The reward is -1 for every step. You start at state "S" - first state on the left. Second state acts in reverse - so if you take a step left you end up going right, and if you take a step right you end up going left.
+There are four states. The goal is to reach the goal state "G" on the right. The reward is -1 for every step. You start at state "S" - first state on the left. Second state acts in reverse - so if you take a step left you end up going right, and if you take a step right you end up going left. The state is unknown to you - you will always get 0.
 
 ## Installation
 
@@ -34,3 +34,15 @@ while True:
     if done:
         break
 ```
+
+Sample run of the above may produce the following:
+```
+[x]{ }[ ][ ]
+[ ]{x}[ ][ ]
+[ ]{ }[x][ ]
+[ ]{x}[ ][ ]
+[ ]{ }[x][ ]
+[ ]{ }[ ][x]
+```
+
+Here "x" is the current true state of the environment (not known to the agent - which only sees one state). The "{ }" indicates a state in which actions are reversed. The rightmost state is the terminal state.
